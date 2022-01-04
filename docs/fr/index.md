@@ -6,7 +6,7 @@ Ce document est un guide de l'utilisateur pour Concrete Datastore et ses fonctio
 
 <!-- Concrete Datastore is a Datastore generator that consumes a datamodel file containing a database description, and dynamically generates the corresponding tables. -->
 
-Concrete Datastore est un générateur de DataStore qui utilise un fichier de modèles de données contenant une description de base de données, et génère dynamiquement les tables correspondantes.
+Concrete Datastore est un générateur de DataStore qui utilise un fichier de modélisation contenant une description de base de données, et génère dynamiquement les tables correspondantes.
 
 <!-- Concrete Datastore exposes a RESTful API to allow its users to interact with the database by **C**reating, **R**etrieving, **U**pdating and **D**eleting data (**CRUD**) -->.
 

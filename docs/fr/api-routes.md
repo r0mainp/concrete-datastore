@@ -19,7 +19,7 @@ Pour toutes les routes listées plus bas, la réponse de l'API à les **codes de
 
 <!-- As explained in the introduction, Concrete Datastore consumes a datamodel definition in order to generate an API giving acess to the instances of the datastore. For each model, Concrete Datastore generates andpoints that allow a user to perform **CRUD** methods. This endpoint is a `kebab-case` (lower case with hyphens) of the model's name. For example if you have a model named `MyModel`, the API endpoint will be `my-model`. -->
 
-Comme expliqué dans l'introduction, Concrete Datastore utilise un modèle de données défini afin de générer une API donnant accès aux instances du datastore.
+Comme expliqué dans l'introduction, Concrete Datastore utilise une modélisation définie afin de générer une API donnant accès aux instances du datastore.
 Pour chaque modèle, Concrete Datastore génère des endpoints qui permettent à l'utilisateur d'effectuer des méthodes **CRUD**. Ce endpoint sont des `kebab-case` (en minuscule avec des tirets) du nom du model. Par exemple si un model est nommé `MyModel`, l'endpoint de l'API sera `my-model`.
 
 <!-- For each model, Concrete Datastore exposes two routes accepting different methods: -->
@@ -108,8 +108,8 @@ La réponse JSON contient les clés suivantes :
 - `max_allowed_objects_per_page`: maximum d'instances affiché en un seule réponse
 - `model_name`: nom du modèle
 - `model_verbose_name`: nom verbeux du modèle
-- `list_display`: liste des champs affichés (défini dans le modèle de données)
-- `list_filter`: mapping des champs filtrables avec `{field_name: field_type}`. Les champs filtrables sont définient dans le modèle de données
+- `list_display`: liste des champs affichés (défini dans la modélisation)
+- `list_filter`: mapping des champs filtrables avec `{field_name: field_type}`. Les champs filtrables sont définient dans le modélisation
 - `total_objects_count`: le total des sintances du modèle actuel
 - `create_url`: l'url pour la création d'une ainstance (avec une requête `POST`)
 
@@ -589,7 +589,6 @@ curl \
 - **Url**: `secure-connect/retrieve-token/`
 - **Method**: `POST`
 - **Description**: allows a user to generate a token that will be used for secure login. An email will be sent to the email address containing the login url.
-ERROR : s
 **Request**: -->
 
 #### Secure Connect
