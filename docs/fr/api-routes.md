@@ -434,7 +434,7 @@ En outre, un utilisateur ayant le niveau manager ou supérieur (celui qui effect
 
 -  est un superuser
 -  est un admin et le mot de passe qu'il tente de modifier à un manager ou à un simple-user
--  est un manager, la cible est un simple user et il à le même scope que l'utilisateur ciblé (si le model de données n'est pas scoped, aucun manager ne peut changer le mot de passe d'un autre utilisateur)
+-  est un manager, la cible est un simple user et il à le même scope que l'utilisateur ciblé (si le model de données n'est pas scopé, aucun manager ne peut changer le mot de passe d'un autre utilisateur)
 
 ```shell
 curl \
@@ -589,7 +589,7 @@ curl \
 - **Url**: `secure-connect/retrieve-token/`
 - **Method**: `POST`
 - **Description**: allows a user to generate a token that will be used for secure login. An email will be sent to the email address containing the login url.
-ERROR : An email containing the login url will be sent to the email address
+ERROR : s
 **Request**: -->
 
 #### Secure Connect

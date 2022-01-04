@@ -6,7 +6,7 @@ Ce document est un guide de l'utilisateur pour Concrete Datastore et ses fonctio
 
 <!-- Concrete Datastore is a Datastore generator that consumes a datamodel file containing a database description, and dynamically generates the corresponding tables. -->
 
-Concrete Datastore est un générateur de DataStore qui utilise un fichier de modèles de données contenant une déscription de base de données, et génère dynamiquement les tables correspondantes.
+Concrete Datastore est un générateur de DataStore qui utilise un fichier de modèles de données contenant une description de base de données, et génère dynamiquement les tables correspondantes.
 
 <!-- Concrete Datastore exposes a RESTful API to allow its users to interact with the database by **C**reating, **R**etrieving, **U**pdating and **D**eleting data (**CRUD**) -->.
 
@@ -18,13 +18,13 @@ Pour avoir accès ou modifier les données de la base de données, chaque requê
 
 <!-- Concrete Datastore also allows its users to have full control over the data requested by enabling a filtering mechanism on the different elements of the database (see [filters](filters.md) section). -->
 
-Concrete Datastore permet aussi à ses utilisateurs d'avoir un contrôle complet sur la données requise en permettant un mécanisme de  de filtrage sur les différents éléments de la base de données (voir la section [filtres](filters.md)).
+Concrete Datastore permet aussi à ses utilisateurs d'avoir un contrôle complet sur la données requise en permettant un mécanisme de filtrage sur les différents éléments de la base de données (voir la section [filtres](filters.md)).
 
 ## Table des matières
 
-- [API Authentification](authentication.md)
-- [API Routes](api-routes.md)
-- [API Filtres](filters.md)
-- [API Permissions](permissions.md)
-- [API Roles](roles.md)
+- [Authentification à l'API](authentication.md)
+- [Routes à l'API](api-routes.md)
+- [Filtres à l'API](filters.md)
+- [Permissions à l'API](permissions.md)
+- [Roles à l'API](roles.md)
 - [Tutoriels](demo.md)
