@@ -8,7 +8,7 @@ For all the routes listed below, the API response has the following **failure st
 
 ### Model related API endpoints
 
-As explained in the introduction, Concrete Datastore consumes a datamodel definition in order to generate an API giving acess to the instances of the datastore. For each model, Concrete Datastore generates andpoints that allow a user to perform **CRUD** methods. This endpoint is a `kebab-case` (lower case with hyphens) of the model's name. For example if you have a model named `MyModel`, the API endpoint will be `my-model`.
+As explained in the introduction, Concrete Datastore consumes a datamodel definition in order to generate an API giving acess to the instances of the datastore. For each model, Concrete Datastore generates endpoints that allow a user to perform **CRUD** methods. This endpoint is a `kebab-case` (lower case with hyphens) of the model's name. For example if you have a model named `MyModel`, the API endpoint will be `my-model`.
 
 For each model, Concrete Datastore exposes two routes accepting different methods:
 
@@ -166,7 +166,7 @@ curl \
 
 #### Delete a specific instance of model MyModel by its UID
 
-A `DELETE` on the url of a given instance of model MyModel will retrieve the fields of this given instance.
+A `DELETE` on the url of a given instance of model MyModel will delete this given instance.
 
 - **Method**: `DELETE`
 
@@ -373,7 +373,7 @@ curl \
 
 - **Url**: `secure-connect/retrieve-token/`
 - **Method**: `POST`
-- **Description**: allows a user to generate a token that will be used for secure login. An email will be sent to the email address containing the login url.
+- **Description**: allows a user to generate a token that will be used for secure login. An email containing the login url will be sent to the email address.
 
 **Request**:
 
