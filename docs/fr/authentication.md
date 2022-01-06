@@ -1,6 +1,20 @@
-## Authentication
+## Authentification
+
+<!-- ## Authentication -->
 
 ### Usage with HTTP Headers
+
+**Note** : HTTPS doit être utilisé pour garantir la confidentialité.
+
+C'est un système d'authentification Token. Lorsque l'utilisateur se connecte, un token est généré et associé à l'utilisateur. En envoyant une requête HTTP avec le token, le serveur sait quel utilisateur a fait la requête.
+
+**Headers:**
+
+```json
+{"Authorization": "Token [Token]"}
+```
+
+<!-- ### Usage with HTTP Headers
 
 **Note** : HTTPS shall be used to ensure privacy
 
@@ -10,19 +24,71 @@ It's a Token authentication system. When the user logs in, a token is generated 
 
 ```json
 {"Authorization": "Token [Token]"}
-```
+``` -->
 
 ### Usage with token in URL
+
+**Note** : HTTPS doit être utilisé pour garantir la confidentialité.
+
+Utilisez les query params `c_auth_with_token=<token value>` dans n'importe quelle url.
+
+Ex. `/api/v1.1/project/?c_auth_with_token=xxxxx`
+
+<!-- ### Usage with token in URL
 
 **Note** : HTTPS shall be used to ensure privacy
 
 Use the query param `c_auth_with_token=<token value>` in any URL
 
-Ex. `/api/v1.1/project/?c_auth_with_token=xxxxx`
+Ex. `/api/v1.1/project/?c_auth_with_token=xxxxx` -->
 
-### Register
+<!-- ### Register -->
+### S'inscrire
 
-#### Request
+#### Requête
+
+Utilisé pour s'inscrire à l'application.
+
+**URL** : `/api/v1.1/auth/register/`
+
+**Méthode** : `POST`
+
+**Authentification requse** : NON
+
+**Contraintes de données**
+
+```json
+{
+    "email": "[valid email address]",
+    "password1": "[password in plain text]",
+    "password2": "[repeated password in plain text]",
+    "url_format": "[valid url format]",
+    "email_format": "[valid email format]"
+}
+```
+
+-  `email` est obligatoire
+-  `password1` est optionnel (si ALLOW_SEND_EMAIL_ON_REGISTER est activé dans les paramètres) et a une valeur par défaut générée dans la vue
+-  `password2` est optionnel (si ALLOW_SEND_EMAIL_ON_REGISTER est activé dans les paramètres) et a une valeur par défaut générée dans la vue
+-  `email_format` est optionnel est a une valeur par défaut qui est DEFAULT_REGISTER_EMAIL_FORMAT (dans les paramètres)
+-  `url_format` est optionnel est a une valeur par défaut qui est `"/#/set-password/{token}/{email}/"`
+
+**Cas d'utilisation** :
+
+- Un utilisateur peu définir `password1` et `password2` afin de s'inscrire avec son propre mot de passe.
+- Un  utilisateur peu s'inscrire sans définir de mot de passes (si ALLOW_SEND_EMAIL_ON_REGISTER est activé), et il recevra un lien dans un email. Ce lien contient l'adresse email utilisée pour s'inscrire et un token utilisé pour réinitialiser le mot de passe. Il peut alors réinitialiser son mot de passe utilisant son token.
+
+**Exemple de données**
+
+```json
+{
+    "email": "johndoe@netsach.com",
+    "password1": "abcd1234",
+    "password2": "abcd1234"
+}
+```
+
+<!-- #### Request
 
 Used to register to the application.
 
@@ -62,9 +128,31 @@ Used to register to the application.
     "password1": "abcd1234",
     "password2": "abcd1234"
 }
+``` -->
+
+#### Réponse de réussite
+
+**Code** : `201 CREATED`
+
+**Exemple de contenu**
+
+```json
+{
+    "uid": "0f1cf8c2-5bda-4281-971b-7ed19ed7bc7a",
+    "email": "johndoe@netsach.com",
+    "url": "https://<webapp>/api/v1.1/account/me/",
+    "token": "e0d15a8547e37ccced180ad590bac5e28cabc71a",
+    "first_name": "",
+    "last_name": "",
+    "level": "simpleuser",
+}
 ```
 
-#### Success Response
+**IMPORTANT:**
+
+Si AUTH_CONFIRM_EMAIL_ENABLE est true dans les settings, vous recevrez un email. Vous aurez besoin de confimer cette adresse email en cliquant sur le lien rattaché a cet email.
+
+<!-- #### Success Response
 
 **Code** : `201 CREATED`
 
@@ -82,9 +170,91 @@ Used to register to the application.
 }
 ```
 
-**IMPORTANT:** if AUTH_CONFIRM_EMAIL_ENABLE is True is settings, you will receive an email. You will need to confirm your email address by clicking on the link attached to this email.
+**IMPORTANT:** if AUTH_CONFIRM_EMAIL_ENABLE is True in settings, you will receive an email. You will need to confirm your email address by clicking on the link attached to this email. -->
 
-#### Error Responses
+#### Résponses d'erreur
+
+**Condition** : Si l'e-mail n'est pas autorisé à s'inscrire.
+
+**Code** : `400 BAD REQUEST`
+
+**Contenu** :
+
+```json
+{
+    "message": "This email is not allowed to register",
+    "_errors": [
+        "EMAIL_NOT_AUTHORIZED_TO_REGISTER"
+    ]
+}
+```
+
+**Condition** : Si `password1` est différent de `password2`.
+
+**Code** : `400 BAD REQUEST`
+
+**Contenu** :
+
+```json
+{
+    "message": "Password confimation incorrect"
+}
+```
+
+**Condition** : Si l'`url_format` n'a pas le bon format.
+
+**Code** : `400 BAD REQUEST`
+
+**Contenu** :
+
+```json
+{
+    "errors": "url_format is not a valid format_string"
+}
+```
+
+**Condition** : Si un utilisateur non authentifié sur la plate-forme (User Anonyme) tente d'envoyer un format e-mail.
+
+**Code** : `400 BAD REQUEST`
+
+**Contenu** :
+
+```json
+{
+    "message": "Only registered users are allowed to set an email_format"
+}
+```
+
+**Condition** : Si `password1` ne respecte pas les critères de complexité.
+
+**Code** : `400 BAD REQUEST`
+
+**Contenu** :
+
+```json
+{
+    "message": "<message>",
+    "_errors": ["<code>"]
+}
+```
+
+`<message>` peut être :
+
+- `"Le mot de passe doit contenir au moins X caractère(s)."`
+- `"Le mot de passe doit contenir au moins X chiffre(s)."`
+- `"Le mot de passe doit contenir au moins X caractère(s) iniscule(s)."`
+- `"Le mot de passe doit contenir au moins X caractère(s) majuscule(s)."`
+- `"Le mot de passe doit contenir au moins X caractère(s) spécia(aux)l parmi ceux-ci : (<liste_de_caractères_spéciaux>)"`
+
+`<code>` peut être :
+
+- `"NOT_ENOUGH_CHARS"`
+- `"NOT_ENOUGH_DIGITS"`
+- `"NOT_ENOUGH_LOWER"`
+- `"NOT_ENOUGH_UPPER"`
+- `"NOT_ENOUGH_SPECIAL"`
+
+<!-- #### Error Responses
 
 **Condition** : If the email is not allowed to register.
 
@@ -100,7 +270,17 @@ Used to register to the application.
     ]
 }
 ```
+**Condition** : Si l'`email_format` n'a pas le bon format.
 
+**Code** : `400 BAD REQUEST`
+
+**Contenu** :
+
+```json
+{
+    "errors": "email_format is not a valid format_string"
+}
+```
 **Condition** : If `password1` is different from `password2`.
 
 **Code** : `400 BAD REQUEST`
@@ -176,9 +356,39 @@ Used to register to the application.
 - `"NOT_ENOUGH_DIGITS"`
 - `"NOT_ENOUGH_LOWER"`
 - `"NOT_ENOUGH_UPPER"`
-- `"NOT_ENOUGH_SPECIAL"`
+- `"NOT_ENOUGH_SPECIAL"` -->
 
 ### Login
+
+#### Requête
+
+Utilisé pour collecter un token pour un utilisateur enregistré.
+
+**URL** : `/api/v1.1/auth/login/`
+
+**Méthode** : `POST`
+
+**Authentification requise** : NON
+
+**Contraintes de données**
+
+```json
+{
+    "email": "[valid email address]",
+    "password": "[password in plain text]"
+}
+```
+
+**Exemple de données**
+
+```json
+{
+    "email": "johndoe@netsach.com",
+    "password": "abcd1234"
+}
+```
+
+<!-- ### Login
 
 #### Request
 
@@ -206,9 +416,46 @@ Used to collect a Token for a registered User.
     "email": "johndoe@netsach.com",
     "password": "abcd1234"
 }
+``` -->
+
+#### Réponse de succès
+
+**Code** : `200 OK`
+
+**Exemple de contenu**
+
+```json
+{
+    "uid": "0f1cf8c2-5bda-4281-971b-7ed19ed7bc7a",
+    "email": "johndoe@netsach.com",
+    "url": "https://<webapp>/api/v1.1/account/me/",
+    "token": "e0d15a8547e37ccced180ad590bac5e28cabc71a",
+    "first_name": "",
+    "last_name": "",
+    "level": "simpleuser",
+    "is_verified": true,
+    "groups": [],
+    "external_auth": false,
+    "<scope_model_field>": []
+}
 ```
 
-#### Success Response
+**Format de réponse**:
+
+-  `uid`: identifiant unique de l'utilisateur
+-  `email`: email de l'utilisateur
+-  `url`: URL pour obtenir les informations du compte de l'utilisateur
+-  `token`: token d'authentification de l'utilisateur
+-  `first_name`: prénom de l'utilisateur
+-  `last_name`: nom de famille de l'utilisateur
+-  `level`: niveau de l'utilisateur
+-  `is_verified`: ce champ est `false` si l'authentification multifacteur est activée **ET** l'utilisateur n'a pas validé le MFA. Sinon c'est "vrai"
+-  `groups`: liste des groupes auxquels appartient l'utilisateur
+-  `external_auth`: si l'utilisateur a été authentifié par une source d'authentification externe (LDAP, External Backend, ...)
+-  `<scope_model_field>`: liste des scopes de l'utilisateur
+
+
+<!-- #### Success Response
 
 **Code** : `200 OK`
 
@@ -242,7 +489,7 @@ Used to collect a Token for a registered User.
 -  `is_verified`: this field is `false` if the Multi Factor Authentication is activated **AND** the user did not validate the MFA. Otherwise it is `true`
 -  `groups`: list of groups to which the user belongs
 -  `external_auth`: whether the user was authenticated by an external authentication source (LDAP, External Backend, ...)
--  `<scope_model_field>`: list of user's scopes
+-  `<scope_model_field>`: list of user's scopes -->
 
 
 #### Error Responses
@@ -276,6 +523,44 @@ Used to collect a Token for a registered User.
     ]
 }
 ```
+#### Réponses d'erreur
+
+**Condition** : Si la combinaison 'nom d'utilisateur' et 'mot de passe' est incorrecte.
+
+**Code** : `401 UNAUTHORIZED`
+
+**Contenu** :
+
+```json
+{
+    "message": "Wrong auth credentials",
+    "_errors": [
+        "WRONG_AUTH_CREDENTIALS"
+    ]
+}
+```
+
+**Condition** : Si l'adresse e-mail n'a pas été validée.
+
+**Code** : `401 UNAUTHORIZED`
+
+**Contenu** :
+
+```json
+{
+    "message": "Email has not been validated",
+    "_errors": [
+        "EMAIL_NOT_VALIDATED"
+    ]
+}
+```
+
+<!-- ROMAIN -->
+----------------
+<!-- ROMAIN -->
+
+
+
 
 ### Account information
 
