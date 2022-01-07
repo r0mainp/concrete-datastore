@@ -492,7 +492,7 @@ Used to collect a Token for a registered User.
 -  `<scope_model_field>`: list of user's scopes -->
 
 
-#### Error Responses
+<!-- #### Error Responses
 
 **Condition** : If 'username' and 'password' combination is wrong.
 
@@ -522,7 +522,7 @@ Used to collect a Token for a registered User.
         "EMAIL_NOT_VALIDATED"
     ]
 }
-```
+``` -->
 #### Réponses d'erreur
 
 **Condition** : Si la combinaison 'nom d'utilisateur' et 'mot de passe' est incorrecte.
@@ -583,7 +583,7 @@ Used to get information about the user.
 ```json
 {
     "uid": "49297d80-e924-479a-8fcc-27e15f7a12e7",
-    "email": "johndoe@netsach.com"
+    "email": "johndoe@netsach.com",
     "first_name": "Doe",
     "last_name": "John",
     "modification_date": "2018-11-26T15:54:34Z",
