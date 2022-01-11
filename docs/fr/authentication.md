@@ -358,7 +358,7 @@ Si AUTH_CONFIRM_EMAIL_ENABLE est true dans les settings, vous recevrez un email.
 - `"NOT_ENOUGH_UPPER"`
 - `"NOT_ENOUGH_SPECIAL"` -->
 
-### Login
+### Se connecter
 
 #### Requête
 
