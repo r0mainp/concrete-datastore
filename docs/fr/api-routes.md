@@ -24,7 +24,7 @@ Pour chaque modèle, Concrete Datastore génère des endpoints qui permettent à
 
 <!-- For each model, Concrete Datastore exposes two routes accepting different methods: -->
 
-Pour chaque model, Concrete Datastore propose deux routes acceptant différentes méthodes :
+Pour chaque modèle, Concrete Datastore propose deux routes acceptant différentes méthodes :
 
 <!-- #### List all instances of model MyModel -->
 
@@ -110,10 +110,10 @@ La réponse JSON contient les clés suivantes :
 - `model_verbose_name`: nom verbeux du modèle
 - `list_display`: liste des champs affichés (défini dans la modélisation)
 - `list_filter`: mapping des champs filtrables avec `{field_name: field_type}`. Les champs filtrables sont définient dans le modélisation
-- `total_objects_count`: le total des sintances du modèle actuel
-- `create_url`: l'url pour la création d'une ainstance (avec une requête `POST`)
+- `total_objects_count`: le total des intances du modèle actuel
+- `create_url`: l'url pour la création d'une instance (avec une requête `POST`)
 
-**IMPORTANT:** Pour le modèle **User**, la liste e contiendra aucun utilisateur avec le niveau `blocked`. Pour accéder à ces utilisateurs, voir [utilisateurs bloqués](#Blockedusers)
+**IMPORTANT:** Pour le modèle **User**, la liste contiendra aucun utilisateur avec le niveau `blocked`. Pour accéder à ces utilisateurs, voir [utilisateurs bloqués](#Blockedusers)
 
 <!-- #### Create a new instance of model MyModel
 
@@ -302,7 +302,7 @@ This operation could fail. If the instance is related to a protected instance, i
 
 **Réponse**: avec le code statut HTTP `204 (NO CONTENT)`, le corps de la réponse est vide.
 
-Cette opération peut échouer. Si l'instance est liée à une ainstance protégée, elle ne peut pas être supprimée. Dans ce cas, le code statut HTTP est `412 (PRECONDITION FAILED)` avec le code erreur `"PROTECTED_RELATION"` dans la réponse.
+Cette opération peut échouer. Si l'instance est liée à une instance protégée, elle ne peut pas être supprimée. Dans ce cas, le code statut HTTP est `412 (PRECONDITION FAILED)` avec le code d'erreur `"PROTECTED_RELATION"` dans la réponse.
 
 
 <!-- ### Specific API endpoints
@@ -329,19 +329,19 @@ Cette opération peut échouer. Si l'instance est liée à une ainstance protég
 
 ### Endpoints spécifique de l'API
 
-#### <a name="Register"></a>Register
+#### <a name="Register"></a>Inscription
 
 - **Url**: `auth/register/` 
 - **Méthode**: `POST`
-- **Description**: permet à un utilisateur de s'enregistrer sur l'API (voir la section [authentification](authentication.md)).
+- **Description**: permet à un utilisateur de s'inscrire sur l'API (voir la section [authentification](authentication.md)).
 
-#### Login
+#### Se connecter
 
 - **Url**: `auth/login/`
 - **Méthode**: `POST`
 - **Description**: permet à un utilisateur de se connecter à l'API (voir la section [authentification](authentication.md)).
 
-#### Account Me
+#### Mon Compte
 
 - **Url**: `account/me/` 
 - **Méthode**: `GET`
@@ -367,7 +367,7 @@ curl \
 
 **Réponse**: `200 (OK)` avec le JSON contenant les informations de l'utilisateur.
 
-#### Modifier les informations de l'utilisateur sur Account Me
+#### Modifier les informations de l'utilisateur sur mon compte
 
 - **Url**: `account/me/` 
 - **Méthode**: `PATCH`
@@ -403,7 +403,7 @@ _With a `password_change_token`_: A user which password expired or who forgot hi
 
 - **Url**: `auth/change-password/`
 - **Méthode**: `POST`
-- **Description**: allows a user to change a password.
+- **Description**: permet à un utilisateur de changer son mot de passe.
 
 **Requête**: Deux cas de figure existent pour cet endpoint:
 
@@ -430,10 +430,10 @@ Besides, a user of a level manager or above (requester) is able to change anothe
 
 _Sans un `password_change_token`_: Un utilisateur peut modifier son mot de passe quand il le souhaite s'il est connecté à l'API.
 
-En outre, un utilisateur ayant le niveau manager ou supérieur (celui qui effectue la requête) peut modifier le mot de passe d'un autre utilisateur (cible). Ainsi, il (qui effectue la requête) doit remplir une de ces conditions :
+En outre, un utilisateur ayant le niveau manager ou supérieur (celui qui effectue la requête) peut modifier le mot de passe d'un autre utilisateur (cible). Ainsi, il (celui qui effectue la requête) doit remplir une de ces conditions :
 
 -  est un superuser
--  est un admin et le mot de passe qu'il tente de modifier à un manager ou à un simple-user
+-  est un admin et le mot de passe qu'il tente de modifier et à un manager ou à un simple-user
 -  est un manager, la cible est un simple user et il à le même scope que l'utilisateur ciblé (si le model de données n'est pas scopé, aucun manager ne peut changer le mot de passe d'un autre utilisateur)
 
 ```shell
@@ -469,13 +469,13 @@ curl \
 
 **Request**: -->
 
-#### Reset Password
+#### Réinitialiser le mot de passe
 
 - **Url**: `auth/reset-password/` 
 - **Méthode**: `POST`
-- **Description**: permet à un utilisateur de réinitialiser son mots de passe s'il l'a oublié (voir la section [authentification](authentication.md)).
+- **Description**: permet à un utilisateur de réinitialiser son mot de passe s'il l'a oublié (voir la section [authentification](authentication.md)).
 
-#### Two Factor Login
+#### Connexion à deux facteurs
 
 - **Url**: `auth/two-factor/login/` (seulement pour l'API v1.1) 
 - **Méthode**: `POST`
@@ -591,13 +591,13 @@ curl \
 - **Description**: allows a user to generate a token that will be used for secure login. An email will be sent to the email address containing the login url.
 **Request**: -->
 
-#### Secure Connect
+#### Connexion sécurisée
 
-##### Retrieve Token
+##### Récupérer le Token
 
 - **Url**: `secure-connect/retrieve-token/`
 - **Méthode**: `POST`
-- **Description**: permet à l'utilisateur de générer un token qui sera utiliser pour une connexion sécurisé. Un email contenant l'url de connexion sera envoyé à l'adresse mail.
+- **Description**: permet à l'utilisateur de générer un token qui sera utilisé pour une connexion sécurisée. Un email contenant l'url de connexion sera envoyé à l'adresse mail.
 
 **Requête**:
 
@@ -637,7 +637,7 @@ curl \
 
 **Request**: -->
 
-##### Generate Token
+##### Générer un Token
 
 - **Url**: `secure-connect/generate-token/`
 - **Méthod**: `POST`
@@ -682,7 +682,7 @@ curl \
 
 **Request**: -->
 
-##### Login
+##### Se connecter
 
 - **Url**: `secure-connect/login/`
 - **Méthode**: `POST`

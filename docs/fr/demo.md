@@ -7,7 +7,7 @@ Pour cette démo, nous utilisons le Datamodel suivant
 
 ![datamodel](assets/default-graph.png)
 
-(Le Datamodel complet peutêtre trouvé [ici](datamodel-yml.md))
+(Le Datamodel complet peut être trouvé [ici](datamodel-yml.md))
 
 <!-- ### Datamodel
 For this demo, we are using the following datamodel
@@ -19,7 +19,7 @@ For this demo, we are using the following datamodel
  -->
 
 
-### Créer un compte et s'Authentifier
+### Créer un compte et s'authentifier
 #### Créer un compte à un utilisateur
 
 Pour créer un nouvel utilisateur il faut éffectuer une requête `POST` vers `/auth/register` avec des données contenant les champs `email`, `password1`, `password2` :
@@ -88,7 +88,7 @@ The server will response with the following JSON:
 ```
 The token will be used for further autheticated requests. -->
 
-#### Se loguer à l'API
+#### Se connecter à l'API
 
 Afin de vous connecter à la plateforme et récupérer votre token, vous pouvez effectuer une requête `POST` sur `/auth/login/` avec les données contenant l'email et le mot de passe de votre utilisateur (utilisé pour vous inscrire) :
 
@@ -155,7 +155,7 @@ curl \
     -d '{"name":"MyFirstProject","code":"MFP",manager_uid":"fe2ad17a-4678-499c-a957-4cd84dd16e08","start_date":"2020-01-24T10:23:53Z"}' \
     "https://<webapp>/api/v1.1/project/"
 ```
-L'instance est créée t le serveur répond avec le JSON suivant :
+L'instance est créée et le serveur répond avec le JSON suivant :
 
 ```json
 {
