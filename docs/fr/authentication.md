@@ -277,7 +277,7 @@ Used to collect a Token for a registered User.
 }
 ```
 
-### Account information
+<!-- ### Account information
 
 #### Request
 
@@ -293,7 +293,25 @@ Used to get information about the user.
 
 **Code** : `200 OK`
 
-**Content example**
+**Content example** -->
+
+### Information du compte
+
+#### Requête
+
+Sert à recupérer les informations d'un utilisateur.
+
+**URL** : `/api/v1.1/account/me/`
+
+**Méthode** : `GET`
+
+**Auth requise** : OUI
+
+#### Réponse de réussite
+
+**Code** : `200 OK`
+
+**Exemple de contenu**
 
 ```json
 {
@@ -315,7 +333,7 @@ Used to get information about the user.
 }
 ```
 
-**Response format**:
+<!-- **Response format**:
 
 -  `uid`: unique id of the user
 -  `email`: user's email
@@ -328,7 +346,7 @@ Used to get information about the user.
 -  `verbose_name`: user's email
 -  `<scope_model_field>`: list of user's scopes
 -  `level`: user's level
--  `unsubscribe_notification_url`: url to unsubscribe user form notifications
+-  `unsubscribe_notification_url`: url to unsubscribe user from notifications
 -  `unsubscribe_all`: user is unsubscribed to all notifications
 -  `unsubscribe_to`: list of scope notifications that the user is unsubscribed to
 -  `external_auth`: whether the user was authenticated by an external authentication source (LDAP, External Backend, ...)
@@ -337,9 +355,33 @@ Used to get information about the user.
 
 **Condition** : If the authentication token is not given.
 
+**Code** : `403 FORBIDDEN` -->
+
+**Format de la réponse**:
+
+-  `uid`: id unique de l'utilisateur
+-  `email`: email de l'utilisateur
+-  `first_name`: prénom de l'utilisateur
+-  `last_name`: nom de famille de l'utilisateur
+-  `modification_date`: date et heure de la dernière modification
+-  `creation_date`: date et heure de la création
+-  `public`: Si l'utilisateur est publique ou non
+-  `url`: l'url pour récupérer les informations de l'utilisateur
+-  `verbose_name`: email de l'utilisateur
+-  `<scope_model_field>`: liste des scopes de l'utilisateur
+-  `level`: niveau de l'utilisateur
+-  `unsubscribe_notification_url`: url to unsubscribe user form notifications
+-  `unsubscribe_all`: l'utilisateur est désabonné de toutes les notifications
+-  `unsubscribe_to`: liste des notifications scopés auquelles l'utiliateur est désabonné. 
+-  `external_auth`: Si l'utilisateur s'est authentifié par une source externe d'authentification (LDAP, External Backend, ...)
+
+#### Réponses d'erreur
+
+**Condition** : Si le token d'authentification n'est pas fourni.
+
 **Code** : `403 FORBIDDEN`
 
-### Update Account information
+<!-- ### Update Account information
 
 #### Request
 
@@ -355,7 +397,25 @@ Used to get information about the user.
 
 **Code** : `200 OK`
 
-**Content example**
+**Content example** -->
+
+### Modifier les informations du compte
+
+#### Requête
+
+Sert à modifier les informations d'un utilisateur.
+
+**URL** : `/api/v1.1/account/me/`
+
+**Méthode** : `PATCH`
+
+**Auth requise** : OUI
+
+#### Réponse de réussite
+
+**Code** : `200 OK`
+
+**Exemple de contenu**
 
 ```json
 {
@@ -372,7 +432,7 @@ Used to get information about the user.
 }
 ```
 
-#### Error Responses
+<!-- #### Error Responses
 
 **Condition** : If the serializer is invalid.
 
@@ -380,10 +440,20 @@ Used to get information about the user.
 
 **Condition** : If the authentication token is not given.
 
+**Code** : `403 FORBIDDEN` -->
+
+#### Réponses d'erreur
+
+**Condition** : Si le serialiseur est incorrect.
+
+**Code** : `400 BAD REQUEST`
+
+**Condition** : Si le token d'autentification n'est pas fourni.
+
 **Code** : `403 FORBIDDEN`
 
 
-### Reset Password Request
+<!-- ### Reset Password Request
 
 #### Request
 
@@ -395,18 +465,39 @@ Used to reset your own password.
 
 **Auth required** : NO
 
-**Data constraints**
+**Data constraints** -->
+
+### Requête de déinitialisation d'un mot de passe
+
+#### Requête
+
+Sert à réinitialiser son propre mot de passe.
+
+**URL** : `/api/v1.1/auth/reset-password/`
+
+**Méthode** : `POST`
+
+**Auth requise** : NON
+
+**Contraintes**
+
 ```json
 {
     "email": "[valid email]",
     "url_format": "[valid url_format]"
 }
 ```
-The url_format will be used to send the reset password email with a link to allow the user to reset his own password. It should be a string containing `"{email}"` and `"{token}"`. Example: `"/redirection-url/{email}/{token}"`.
+<!-- The url_format will be used to send the reset password email with a link to allow the user to reset his own password. It should be a string containing `"{email}"` and `"{token}"`. Example: `"/redirection-url/{email}/{token}"`.
 
 Default value: `"/#/reset-password/{token}/{email}/"`.
 
-**Data example**
+**Data example** -->
+
+L' `url_format` sera utiliser pour envoyer l'email de réinitialisation de mot de passe avec un lien pour permettre à l'utilisateur de réinitialiser son mot de passe. Ce lien devrait être une chaîne de caractère contenant `"{email}"` et `"{token}"`. Exemple: `"/redirection-url/{email}/{token}"`.
+
+Valeur par défaut: `"/#/reset-password/{token}/{email}/"`.
+
+**Exemple**
 
 ```json
 {
@@ -415,31 +506,47 @@ Default value: `"/#/reset-password/{token}/{email}/"`.
 }
 ```
 
-#### Success Response
+<!-- #### Success Response
 
 **Code** : `200 OK`
 
-**Content example**
+**Content example** -->
+
+#### Réponse de réussite
+
+**Code** : `200 OK`
+
+**Exemple de contenu**
+
 ```json
 {
     "email": "johndoe@netsach.com"
 }
 ```
 
-#### Error Responses
+<!-- #### Error Responses
 
 **Condition** : If the `url_format` has not the right format.
 
 **Code** : `400 BAD REQUEST`
 
-**Content example**
+**Content example** -->
+
+#### Réponses d'erreur
+
+**Condition** : Si l' `url_format` n'a pas le bon format.
+
+**Code** : `400 BAD REQUEST`
+
+**Exemple de contenu**
+
 ```json
 {
     "errors": "url_format is not a valid format_string"
 }
 ```
 
-### Change Password
+<!-- ### Change Password
 
 #### Request
 
@@ -451,7 +558,22 @@ Used to change the password of a user.
 
 **Auth required** : YES.
 
-**Data constraints**
+**Data constraints** -->
+
+### Modifier le mot de passe
+
+#### Requête
+
+Sert à modifier le mot de passe d'un utilisateur.
+
+**URL** : `/api/v1.1/auth/change-password/`
+
+**Méthode** : `POST`
+
+**Auth requise** : OUI.
+
+**Contraintes**
+
 ```json
 {
     "email": "[valid user email]",
@@ -461,12 +583,19 @@ Used to change the password of a user.
 }
 ```
 
--  `email` is mandatory
+<!-- -  `email` is mandatory
 -  `password1` is mandatory
 -  `password2` is mandatory
 -  `password_change_token` is optional. This token is created if the user forgot his password and requests a reset password, or if the current password has expired. If given in data, that means that the user is attempting to change his own password (the request is not authenticated). Otherwise, if the `password_change_token` is not given, the request must be authenticated and the authenticated user must have the permissions to alter another user's password.
 
-**Data example**
+**Data example** -->
+
+-  `email` est requis
+-  `password1` est requis
+-  `password2` est requis
+-  `password_change_token` est optionnel. Ce tiken est créé si l'utilisateur a oublié son mot de passe et en demande un nouveau, ou si le mot de passe actuel a expiré. Si ce token est présent, celà signifie que l'utilisateur tente de modifier son propre mot de passe (la requête n'est pas authentifiée). sinon, si le `password_change_token` n'ets pas préssent, la requête doit être authentifiée and et l'utilisateur connecté doit avoir les permission pour changer le mot de passe d'un autre utilisateur.
+
+**Exemple**
 
 ```json
 {
@@ -477,13 +606,21 @@ Used to change the password of a user.
 }
 ```
 
-#### Success Response
+<!-- #### Success Response
 
 **Code** : `200 OK`
 
 **Content example**
 
-If a user attempts to change his own password
+If a user attempts to change his own password -->
+
+#### Réponse de réussite
+
+**Code** : `200 OK`
+
+**Exemple**
+
+Si l'utilisateur tente de changer son propre mot de passe
 
 ```json
 {
@@ -500,7 +637,9 @@ If a user attempts to change his own password
 }
 ```
 
-If a user (with the sufficient permissions) attempts to change another user's password:
+<!-- If a user (with the sufficient permissions) attempts to change another user's password: -->
+
+Si un utilisateur (avec les permission suffisantes) tente de changer le motd e passe d'un autre utilisateur
 
 ```json
 {
@@ -509,7 +648,7 @@ If a user (with the sufficient permissions) attempts to change another user's pa
 }
 ```
 
-#### Error Responses
+<!-- #### Error Responses
 
 **Condition** : If the given `password_change_token` is invalid.
 
@@ -529,5 +668,26 @@ If a user (with the sufficient permissions) attempts to change another user's pa
 
 **Condition** : If the user making the request does not have the permission to change another user's password.
 
-**Code** : `403 FORBIDDEN`
+**Code** : `403 FORBIDDEN` -->
 
+#### Réponses d'erreur
+
+**Condition** : Si le `password_change_token` donné est incorrect.
+
+**Code** : `400 BAD REQUEST`
+
+**Condition** : Si le `password_change_token` donné ne correspond pas au `password_change_token` de l'utilisateur.
+
+**Code** : `400 BAD REQUEST`
+
+**Condition** : Si le `password_change_token` donné a expiré.
+
+**Code** : `400 BAD REQUEST`
+
+**Condition** : Si le nouveau mot de passe est identique à l'ancien.
+
+**Code** : `400 BAD REQUEST`
+
+**Condition** : Si l'utilisateur faisant la reqête n'a pas la permission de changer le mot de passe d'un autre utilisateur.
+
+**Code** : `403 FORBIDDEN`

@@ -328,7 +328,7 @@ Used to get information about the user.
 -  `verbose_name`: user's email
 -  `<scope_model_field>`: list of user's scopes
 -  `level`: user's level
--  `unsubscribe_notification_url`: url to unsubscribe user form notifications
+-  `unsubscribe_notification_url`: url to unsubscribe user from notifications
 -  `unsubscribe_all`: user is unsubscribed to all notifications
 -  `unsubscribe_to`: list of scope notifications that the user is unsubscribed to
 -  `external_auth`: whether the user was authenticated by an external authentication source (LDAP, External Backend, ...)
@@ -343,7 +343,7 @@ Used to get information about the user.
 
 #### Request
 
-Used to get information about the user.
+Used to update information about the user.
 
 **URL** : `/api/v1.1/account/me/`
 
@@ -515,7 +515,7 @@ If a user (with the sufficient permissions) attempts to change another user's pa
 
 **Code** : `400 BAD REQUEST`
 
-**Condition** : If the given `password_change_token` does not match with the user's password.
+**Condition** : If the given `password_change_token` does not match with the user's `password_change_token`.
 
 **Code** : `400 BAD REQUEST`
 
