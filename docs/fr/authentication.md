@@ -2,7 +2,7 @@
 
 <!-- ## Authentication -->
 
-### Usage with HTTP Headers
+### Utilisation avec les Headers HTTP
 
 **Note** : HTTPS doit être utilisé pour garantir la confidentialité.
 
@@ -26,7 +26,7 @@ It's a Token authentication system. When the user logs in, a token is generated 
 {"Authorization": "Token [Token]"}
 ``` -->
 
-### Usage with token in URL
+### Utilisation avec un token dans l'URL
 
 **Note** : HTTPS doit être utilisé pour garantir la confidentialité.
 
@@ -53,7 +53,7 @@ Utilisé pour s'inscrire à l'application.
 
 **Méthode** : `POST`
 
-**Authentification requse** : NON
+**Authentification requise** : NON
 
 **Contraintes de données**
 
@@ -75,8 +75,8 @@ Utilisé pour s'inscrire à l'application.
 
 **Cas d'utilisation** :
 
-- Un utilisateur peu définir `password1` et `password2` afin de s'inscrire avec son propre mot de passe.
-- Un  utilisateur peu s'inscrire sans définir de mot de passes (si ALLOW_SEND_EMAIL_ON_REGISTER est activé), et il recevra un lien dans un email. Ce lien contient l'adresse email utilisée pour s'inscrire et un token utilisé pour réinitialiser le mot de passe. Il peut alors réinitialiser son mot de passe utilisant son token.
+- Un utilisateur peut définir `password1` et `password2` afin de s'inscrire avec son propre mot de passe.
+- Un  utilisateur peut s'inscrire sans définir de mot de passes (si ALLOW_SEND_EMAIL_ON_REGISTER est activé), et il recevra un lien dans un email. Ce lien contient l'adresse email utilisée pour s'inscrire et un token utilisé pour réinitialiser le mot de passe. Il peut alors réinitialiser son mot de passe en utilisant son token.
 
 **Exemple de données**
 
@@ -150,7 +150,7 @@ Used to register to the application.
 
 **IMPORTANT:**
 
-Si AUTH_CONFIRM_EMAIL_ENABLE est true dans les settings, vous recevrez un email. Vous aurez besoin de confimer cette adresse email en cliquant sur le lien rattaché a cet email.
+Si AUTH_CONFIRM_EMAIL_ENABLE est true dans les settings, vous recevrez un email. Vous aurez besoin de confimer cette adresse email en cliquant sur le lien rattaché à cet email.
 
 <!-- #### Success Response
 
@@ -213,7 +213,7 @@ Si AUTH_CONFIRM_EMAIL_ENABLE est true dans les settings, vous recevrez un email.
 }
 ```
 
-**Condition** : Si un utilisateur non authentifié sur la plate-forme (User Anonyme) tente d'envoyer un format e-mail.
+**Condition** : Si un utilisateur non authentifié sur la plate-forme (Utilisateur anonyme) tente d'envoyer un format e-mail.
 
 **Code** : `400 BAD REQUEST`
 
@@ -240,11 +240,11 @@ Si AUTH_CONFIRM_EMAIL_ENABLE est true dans les settings, vous recevrez un email.
 
 `<message>` peut être :
 
-- `"Le mot de passe doit contenir au moins X caractère(s)."`
-- `"Le mot de passe doit contenir au moins X chiffre(s)."`
-- `"Le mot de passe doit contenir au moins X caractère(s) iniscule(s)."`
-- `"Le mot de passe doit contenir au moins X caractère(s) majuscule(s)."`
-- `"Le mot de passe doit contenir au moins X caractère(s) spécia(aux)l parmi ceux-ci : (<liste_de_caractères_spéciaux>)"`
+- `"The password must contain at least X character(s)."`
+- `"The password must contain at least X digit(s)."`
+- `"The password must contain at least X lower character(s)."`
+- `"The password must contain at least X upper character(s)."`
+- `"The password must contain at least X special character(s) from these : (<list_of_special_characters>)"`
 
 `<code>` peut être :
 

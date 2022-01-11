@@ -21,7 +21,7 @@ Note that concrete roles and permissions don't give additional permissions to a 
 
 ### Rôles Concrete
 
-`ConcreteRole` et un modèle Concrete Datastore qui permet d'attribuer différentes permissions pour des utilisateurs du même niveau. (**les admins et superusers n'ont pas leur permissions changées par les rôles, cela n'affecte uniquement que les simpleuser ou les managers de la platforme.**)
+`ConcreteRole` et un modèle Concrete Datastore qui permet d'attribuer différentes permissions pour des utilisateurs du même niveau. (**les admins et superusers n'ont pas leur permissions changées par les rôles, cela affecte uniquement les simpleuser ou les managers de la platforme.**)
 
 Chaque instance du modèle ConcreteRole à un nom de rôle et une liste d'utilisateurs.
 
@@ -49,9 +49,9 @@ For simpleusers and managers, in order to perform a **CRUD** operation, a user m
 
 ### Exemple
 
-Avoir trois utilisateurs, un `SimpleUser`, un `Manager_1` et un `Manager_2`.
+Ayant trois utilisateurs, un `SimpleUser`, un `Manager_1` et un `Manager_2`.
 
-Avoir un modèle `MonModèle` avec un `minimum_creation_level` défini sur manager, les deux managers sont autorisées a créer de nouvelles instances de `MonModèle` pendant que le simpleuser n'y est pas autorisé.
+Pour un modèle `MonModèle` avec un `minimum_creation_level` défini sur manager, les deux managers sont autorisées a créer de nouvelles instances de `MonModèle` pendant que le simpleuser n'y est pas autorisé.
 
 Deux rôles sont maintenant ajoutés :
 
