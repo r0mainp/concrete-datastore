@@ -7,7 +7,7 @@ Pour cette démo, nous utilisons le Datamodel suivant
 
 ![datamodel](assets/default-graph.png)
 
-(Le Datamodel complet peutêtre trouvé [ici](datamodel-yml.md))
+(Le Datamodel complet peut être trouvé [ici](datamodel-yml.md))
 
 <!-- ### Datamodel
 For this demo, we are using the following datamodel
@@ -19,7 +19,7 @@ For this demo, we are using the following datamodel
  -->
 
 
-### Créer un compte et s'Authentifier
+### Créer un compte et s'authentifier
 #### Créer un compte à un utilisateur
 
 Pour créer un nouvel utilisateur il faut éffectuer une requête `POST` vers `/auth/register` avec des données contenant les champs `email`, `password1`, `password2` :

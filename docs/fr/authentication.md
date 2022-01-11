@@ -556,6 +556,7 @@ Used to collect a Token for a registered User.
 ```
 
 
+
 <!-- ### Account information
 
 #### Request
@@ -651,7 +652,7 @@ Sert à recupérer les informations d'un utilisateur.
 -  `level`: niveau de l'utilisateur
 -  `unsubscribe_notification_url`: url to unsubscribe user form notifications
 -  `unsubscribe_all`: l'utilisateur est désabonné de toutes les notifications
--  `unsubscribe_to`: liste des notifications scopés auquelles l'utiliateur est désabonné. 
+-  `unsubscribe_to`: liste des notifications scopés auxquelles l'utiliateur est désabonné.
 -  `external_auth`: Si l'utilisateur s'est authentifié par une source externe d'authentification (LDAP, External Backend, ...)
 
 #### Réponses d'erreur
@@ -723,7 +724,7 @@ Sert à modifier les informations d'un utilisateur.
 
 #### Réponses d'erreur
 
-**Condition** : Si le serialiseur est incorrect.
+**Condition** : Si le sérialiseur est incorrect.
 
 **Code** : `400 BAD REQUEST`
 
@@ -746,7 +747,7 @@ Used to reset your own password.
 
 **Data constraints** -->
 
-### Requête de déinitialisation d'un mot de passe
+### Requête de réinitialisation d'un mot de passe
 
 #### Requête
 
@@ -772,7 +773,7 @@ Default value: `"/#/reset-password/{token}/{email}/"`.
 
 **Data example** -->
 
-L' `url_format` sera utiliser pour envoyer l'email de réinitialisation de mot de passe avec un lien pour permettre à l'utilisateur de réinitialiser son mot de passe. Ce lien devrait être une chaîne de caractère contenant `"{email}"` et `"{token}"`. Exemple: `"/redirection-url/{email}/{token}"`.
+L' `url_format` sera utilisé pour envoyer l'email de réinitialisation de mot de passe avec un lien pour permettre à l'utilisateur de réinitialiser son mot de passe. Ce lien devra être une chaîne de caractère contenant `"{email}"` et `"{token}"`. Exemple: `"/redirection-url/{email}/{token}"`.
 
 Valeur par défaut: `"/#/reset-password/{token}/{email}/"`.
 
@@ -872,7 +873,7 @@ Sert à modifier le mot de passe d'un utilisateur.
 -  `email` est requis
 -  `password1` est requis
 -  `password2` est requis
--  `password_change_token` est optionnel. Ce tiken est créé si l'utilisateur a oublié son mot de passe et en demande un nouveau, ou si le mot de passe actuel a expiré. Si ce token est présent, celà signifie que l'utilisateur tente de modifier son propre mot de passe (la requête n'est pas authentifiée). sinon, si le `password_change_token` n'ets pas préssent, la requête doit être authentifiée and et l'utilisateur connecté doit avoir les permission pour changer le mot de passe d'un autre utilisateur.
+-  `password_change_token` est optionnel. Ce token est créé si l'utilisateur a oublié son mot de passe et en demande un nouveau, ou si le mot de passe actuel a expiré. Si ce token est présent, celà signifie que l'utilisateur tente de modifier son propre mot de passe (la requête n'est pas authentifiée). Sinon, si le `password_change_token` n'est pas présent, la requête doit être authentifiée et l'utilisateur connecté doit avoir les permissions pour changer le mot de passe d'un autre utilisateur.
 
 **Exemple**
 
@@ -918,7 +919,7 @@ Si l'utilisateur tente de changer son propre mot de passe
 
 <!-- If a user (with the sufficient permissions) attempts to change another user's password: -->
 
-Si un utilisateur (avec les permission suffisantes) tente de changer le motd e passe d'un autre utilisateur
+Si un utilisateur (avec les permission suffisantes) tente de changer le mot de passe d'un autre utilisateur
 
 ```json
 {
