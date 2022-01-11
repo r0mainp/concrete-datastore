@@ -158,4 +158,5 @@ manifest:
           name: Group
 
 ```
-You can download the datamodel file [here](assets/sample-datamodel.yml)
+Vous pouvez télécharger la modéllisation [ici] (assets/sample-datamodel.yml)
+<!-- You can download the datamodel file [here](assets/sample-datamodel.yml) -->
