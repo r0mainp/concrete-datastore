@@ -19,16 +19,11 @@ from django.core.exceptions import (
     ObjectDoesNotExist,
     SuspiciousOperation,
 )
-from django.contrib.gis.db.models import (
-    PointField,
-)  # it includes all default fields
-
 from django.contrib.auth import authenticate, get_user_model
 from django.http.request import QueryDict
 from django.utils import timezone
 from django.apps import apps
 from django.conf import settings
-from rest_framework_gis.filters import DistanceToPointFilter
 from rest_framework.decorators import action
 from rest_framework.utils.urls import remove_query_param, replace_query_param
 from rest_framework.response import Response
@@ -55,7 +50,12 @@ from concrete_datastore.concrete.models import (  # pylint:disable=E0611
     Email,
     SecureConnectToken,
 )
+from concrete_datastore.api.v1.throttling import (
+    CustomUserRateThrottle,
+    CustomAnonymousRateThrottle,
+)
 from concrete_datastore.api.v1.permissions import (
+    UserAtLeastAuthenticatedPermission,
     UserAccessPermission,
     filter_queryset_by_permissions,
     filter_queryset_by_divider,
@@ -74,6 +74,7 @@ from concrete_datastore.api.v1.serializers import (
 )
 from concrete_datastore.api.v1.filters import (
     FilterSupportingOrBackend,
+    FilterJSONFieldsBackend,
     FilterSupportingEmptyBackend,
     FilterSupportingContainsBackend,
     FilterSupportingInsensitiveContainsBackend,
@@ -84,6 +85,7 @@ from concrete_datastore.api.v1.filters import (
     FilterSupportingForeignKey,
     FilterSupportingManyToMany,
     FilterDistanceBackend,
+    ExcludeFilterBackend,
 )
 
 from concrete_datastore.api.v1.authentication import (
@@ -905,14 +907,30 @@ class ChangePasswordView(SecurityRulesMixin, generics.GenericAPIView):
 
 class RegisterApiView(SecurityRulesMixin, generics.GenericAPIView):
     serializer_class = RegisterSerializer
-    '''this view is used to register a new user. It first check
+    '''
+        this view is used to register a new user. It first check
         if password1 == password2 and if email isn't already used
-     '''
+    '''
     api_namespace = DEFAULT_API_NAMESPACE
 
     def __init__(self, api_namespace, *args, **kwargs):
         self.api_namespace = api_namespace
         super().__init__(*args, **kwargs)
+
+    @property
+    def register_backend_modules(self):
+        for backend in settings.CONCRETE_REGISTER_BACKENDS:
+            module_name, backend_name = backend.rsplit('.', 1)
+            module = import_module(module_name)
+            yield getattr(module, backend_name)
+
+    def post_register(self, request, user, *args, **kwargs):
+        for backend in self.register_backend_modules:
+            backend().post_register(request, user, *args, **kwargs)
+
+    def pre_register(self, request, *args, **kwargs):
+        for backend in self.register_backend_modules:
+            backend().pre_register(request, *args, **kwargs)
 
     def get_request_user(self):
         """
@@ -1161,10 +1179,12 @@ class RegisterApiView(SecurityRulesMixin, generics.GenericAPIView):
             return Response(status=HTTP_200_OK)
         except UserModel.DoesNotExist:
             pass
+        self.pre_register(request=request)
         user = UserModel.objects.create(**data_to_post)
 
         user.set_password(password)
         user.save()
+        self.post_register(request=request, user=user)
         if send_register_email is True:
             now = pendulum.now('utc')
             password_change_token_expiry_date = now.add(months=6)
@@ -1378,7 +1398,7 @@ class AccountMeApiView(
         TokenExpiryAuthentication,
         URLTokenExpiryAuthentication,
     )
-    permission_classes = (UserAccessPermission,)
+    permission_classes = (UserAtLeastAuthenticatedPermission,)
     api_namespace = DEFAULT_API_NAMESPACE
 
     def __init__(self, api_namespace, *args, **kwargs):
@@ -1433,6 +1453,7 @@ class AccountMeApiView(
 class PaginatedViewSet(object):
     pagination_class = ExtendedPagination
     filter_backends = (
+        FilterJSONFieldsBackend,
         FilterDistanceBackend,
         SearchFilter,
         OrderingFilter,
@@ -1448,6 +1469,7 @@ class PaginatedViewSet(object):
         FilterForeignKeyIsNullBackend,
         FilterSupportingForeignKey,
         FilterSupportingManyToMany,
+        ExcludeFilterBackend,
     )
     filterset_fields = ()
     ordering_fields = '__all__'
@@ -1805,6 +1827,9 @@ class ApiModelViewSet(PaginatedViewSet, viewsets.ModelViewSet):
         # Return the dispatch response
         return rsp
 
+    def _get_bare_field_name(self, param):
+        return param.split('__')[0].replace('_uid', '').replace('!', '')
+
     def list(self, request):
         def check_date_format(date_type, param_values):
             date_format = 'yyyy-mm-dd'
@@ -1852,7 +1877,7 @@ class ApiModelViewSet(PaginatedViewSet, viewsets.ModelViewSet):
 
         for query_param in request.GET:
             param_values_list = request.GET[query_param].split(',')
-            param = query_param.split('__')[0].replace('_uid', '')
+            param = self._get_bare_field_name(query_param)
             if param not in self.fields:
                 continue
             if param not in self.filterset_fields:
@@ -2017,8 +2042,9 @@ class ApiModelViewSet(PaginatedViewSet, viewsets.ModelViewSet):
         return self.serializer_class_nested
 
     def perform_create(self, serializer):
-
-        attrs = {'created_by': self.request.user}
+        attrs = {}
+        if self.request.user.is_authenticated:
+            attrs.update({'created_by': self.request.user})
 
         try:
             divider = self.get_divider()
